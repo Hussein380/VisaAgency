@@ -1,0 +1,21 @@
+# netlify.toml
+[
+build
+]
+  publish = "."
+  command = "" # Leave empty if no build command
+
+[[
+redirects
+]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# This ensures the admin path works
+[[
+redirects
+]]
+  from = "/admin/*"
+  to = "/admin/index.html"
+  status = 200

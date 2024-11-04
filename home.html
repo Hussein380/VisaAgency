@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visa Agency</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style/home.css">
+</head>
+
+<button id="chatToggle" class="chat-toggle">
+    <i class="fas fa-comments"></i>
+</button>
+
+<!-- Chatbot Container -->
+<div id="chatbot" class="chatbot-container">
+    <div class="chatbot-header">
+        <div class="header-content">
+            <i class="fas fa-robot"></i>
+            <h2>Visa Assistant</h2>
+        </div>
+        <div class="header-actions">
+            <button id="minimizeChat" class="action-btn">
+                <i class="fas fa-minus"></i>
+            </button>
+            <button id="closeChat" class="action-btn">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    </div>
+
+    <div id="chatbotMessages" class="chatbot-messages">
+        <!-- Messages will be inserted here -->
+    </div>
+
+    <div class="typing-indicator hidden" id="typingIndicator">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
+    <div class="chatbot-input-container">
+        <input 
+            type="text" 
+            id="userInput" 
+            class="chatbot-input" 
+            placeholder="Type your message..."
+        />
+        <button id="sendButton" class="send-btn">
+            <i class="fas fa-paper-plane"></i>
+        </button>
+    </div>
+</div>
+
+<!-- Add chatbot scripts -->
+<link rel="stylesheet" href="style/chatbot.css">
+<script src="js/chatbot.js"></script>
+
+
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo">TawheedVisaAgency</div>
+            <button id="themeToggle" class="theme-toggle">
+                <i class="fas fa-moon dark-icon"></i>
+                <i class="fas fa-sun light-icon"></i>
+            </button>
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="nav-links" id="navLinks">
+                <a href="#">Home</a>
+                <a href="#about">About Us</a>
+                <a href="studyAbroad.html">Study Abroad</a>
+
+                <div class="dropdown">
+                    <a href="#">Visas ▾</a>
+                    <div class="dropdown-content">
+                        <a href="#">Visit Visas</a>
+                        <a href="#">Student Visas</a>
+                        <a href="#">Work Visas</a>
+                        <a href="#">Pilgrimage Visas</a>
+                    </div>
+
+                </div>
+                <a href="news.html">News & Events</a>
+                <a href="#" onclick="showOthersDialog()">Others</a>
+            </div>
+        </div>
+    </nav>
+    
+
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Your Gateway to Global Travel</h1>
+        <p>Professional visa services to make your journey smooth and hassle-free</p>
+    </section>
+
+    <!-- Services Grid -->
+    <div class="services">
+        <div class="service-card">
+            <i class="fas fa-globe"></i>
+            <h3>Visit Visas</h3>
+            <p>Tourist and business visit visas for multiple countries</p>
+        </div>
+        <div class="service-card">
+            <i class="fas fa-graduation-cap"></i>
+            <h3>Student Visas</h3>
+            <p>Study abroad with our comprehensive student visa services</p>
+        </div>
+        <div class="service-card">
+            <i class="fas fa-briefcase"></i>
+            <h3>Work Visas</h3>
+            <p>Professional work visa assistance for global careers</p>
+        </div>
+        <div class="service-card">
+            <i class="fas fa-heart"></i>
+            <h3>Pilgrimage Visas</h3>
+            <p>Specialized assistance for Hajj and Umrah visas</p>
+        </div>
+    </div>
+
+    <!-- Visa Readiness Score Feature -->
+  
+    <div class="visa-readiness-checker">
+        <!-- Introduction Section -->
+        <div id="introductionSection" class="intro-section">
+            <h2>Quick Visa Eligibility Check</h2>
+            <p>Find out your visa application strength and how we can help improve your chances</p>
+    
+            <div class="how-it-works">
+                <h3>How It Works</h3>
+                <ul>
+                    <li><i class="fas fa-check-circle"></i> Answer a few simple questions</li>
+                    <li><i class="fas fa-star"></i> Get your personalized visa readiness score</li>
+                    <li><i class="fas fa-lightbulb"></i> Receive free expert tips</li>
+                    <li><i class="fas fa-calendar-check"></i> Book a consultation to discuss your options</li>
+                </ul>
+            </div>
+    
+            <button id="startQuizButton" class="cta-btn start-btn">
+                Start Quick Visa Check
+            </button>
+        </div>
+    
+        <!-- Progress Bar -->
+        <div id="progressBarContainer" class="progress-container" style="display: none;">
+            <h3 id="currentTopic" class="topic-header"></h3>
+            <div class="progress-bar">
+                <div id="progressBar" class="progress" style="width: 0%"></div>
+            </div>
+            <div class="progress-text">Question <span id="currentQuestionNumber">1</span> of 5</div>
+        </div>
+    
+        <!-- Question Container -->
+        <div id="questionContainer" class="question-section" style="display: none;">
+            <div class="question-text"></div>
+            <div class="options-container"></div>
+            <div class="tip-container">
+                <i class="fas fa-lightbulb tip-icon"></i>
+                <p class="tip-text"></p>
+            </div>
+        </div>
+    
+        <!-- Result Container -->
+        <div id="resultContainer" class="result-section" style="display: none;">
+            <div class="score-circle">
+                <svg viewBox="0 0 120 120">
+                    <circle class="base" cx="60" cy="60" r="58" fill="none" stroke="#eee" stroke-width="4"/>
+                    <circle class="progress" cx="60" cy="60" r="58" fill="none" stroke="#2563eb" stroke-width="4"/>
+                </svg>
+                <div class="score-text">
+                    <span id="scoreNumber">0</span>%
+                </div>
+            </div>
+            <div id="resultMessage" class="result-message"></div>
+            <div id="tipsList" class="tips-list"></div>
+            <div class="cta-buttons">
+
+                <button class="cta-btn consultation-btn" onclick="Calendly.showPopupWidget('https://calendly.com/huznigarane/30min'); return false;">
+                    <i class="fas fa-calendar-alt"></i> Book Free Consultation
+                </button>
+
+                
+                <button class="cta-btn whatsapp-btn" onclick="startWhatsAppChat()">
+                    <i class="fab fa-whatsapp"></i> WhatsApp Chat
+                </button>
+                <button class="cta-btn email-btn" onclick="sendEmailQuery()">
+                    <i class="fas fa-envelope"></i> Email Query
+                </button>
+            </div>
+            <button class="restart-btn" onclick="restartQuiz()">
+                Take Quiz Again
+            </button>
+        </div>
+    </div>
+
+    <section id="about" class="about-section">
+        <div class="about-container">
+            <div class="about-header">
+                <h2>Welcome to TawheedVisaAgency</h2>
+                <div class="subtitle">Your Trusted Partner in Visa Processing</div>
+            </div>
+    
+            <div class="about-grid">
+                <div class="about-content">
+                    <h3>Who We Are</h3>
+                    <p>With over a decade of experience in visa processing, we've helped thousands of clients successfully obtain visas for various destinations. Our expert team understands the complexities of visa applications and works tirelessly to make your visa journey smooth and successful.</p>
+                    
+                    <h3>Our Commitment</h3>
+                    <p>We believe in transparent, honest, and professional service. Every application is handled with utmost care and attention to detail, ensuring the highest success rate for our clients.</p>
+    
+                    <div class="stats-container">
+                        <div class="stat-item">
+                            <i class="fas fa-check-circle"></i>
+                            <h4>98%</h4>
+                            <p>Success Rate</p>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fas fa-users"></i>
+                            <h4>10,000+</h4>
+                            <p>Happy Clients</p>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fas fa-globe"></i>
+                            <h4>50+</h4>
+                            <p>Countries Covered</p>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="about-services">
+                    <div class="service-highlight">
+                        <h3>How We Make Visa Processing Easy</h3>
+                        <ul class="service-list">
+                            <li>
+                                <i class="fas fa-file-alt"></i>
+                                <div>
+                                    <h4>Document Preparation</h4>
+                                    <p>We guide you through required documentation and ensure everything meets embassy standards.</p>
+                                </div>
+                            </li>
+                            <li>
+                                <i class="fas fa-calendar-check"></i>
+                                <div>
+                                    <h4>Application Management</h4>
+                                    <p>We handle the entire application process, from filling forms to scheduling interviews.</p>
+                                </div>
+                            </li>
+                            <li>
+                                <i class="fas fa-comments"></i>
+                                <div>
+                                    <h4>24/7 Support</h4>
+                                    <p>Our team is always available to answer your questions and provide updates.</p>
+                                </div>
+                            </li>
+                            <li>
+                                <i class="fas fa-shield-alt"></i>
+                                <div>
+                                    <h4>Legal Compliance</h4>
+                                    <p>We ensure all applications comply with current immigration laws and regulations.</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="cta-section">
+                <h3>Ready to Start Your Visa Journey?</h3>
+                <p>Let us handle the complexity while you focus on planning your trip.</p>
+                <div class="cta-buttons">
+                    <!-- Button now just points to the Calendly badge widget that is always visible -->
+                    <button class="cta-btn consultation-btn" onclick="Calendly.showPopupWidget('https://calendly.com/huznigarane/30min'); return false;">
+                        <i class="fas fa-calendar-alt"></i> Book Free Consultation
+                    </button>
+                    <button class="cta-btn whatsapp-btn" onclick="startWhatsAppChat()">
+                        <i class="fab fa-whatsapp"></i> WhatsApp Us
+                    </button>
+                    <button class="cta-btn email-btn" onclick="sendEmailQuery()">
+                        <i class="fas fa-envelope"></i> Email Us
+                    </button>
+                </div>
+            </div>
+            
+            
+
+            
+        </div>
+        
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Contact Us</h4>
+                <p>Email: huznigaranegmail.com</p>
+                <p>WhatsApp: +254 725 996 394</p>
+                <p>Phone: +254725996394</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <p><a href="#">Home</a></p>
+                <p><a href="#">About Us</a></p>
+                <p><a href="#">Services</a></p>
+                <p><a href="#">Contact</a></p>
+            </div>
+            <div class="footer-section">
+                <h4>Follow Us</h4>
+                <p><a href="#">Facebook</a></p>
+                <p><a href="#">Twitter</a></p>
+                <p><a href="#">LinkedIn</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+    <script src="js/main.js"></script>
+    <!-- Calendly badge widget begin -->
+<link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
+<script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
+<script type="text/javascript">
+    window.onload = function() {
+        Calendly.initBadgeWidget({
+            url: 'https://calendly.com/huznigarane/30min', // Replace with your Calendly link
+            text: 'Schedule time with me', 
+            color: '#0069ff', 
+            textColor: '#ffffff',
+            branding: true // Optionally show Calendly branding
+        });
+    }
+</script>
+</body>
+
+</html>

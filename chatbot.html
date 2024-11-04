@@ -1,0 +1,59 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visa Assistant Chatbot</title>
+    <link rel="stylesheet" href="style/chatbot.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Chat Toggle Button -->
+    <button id="chatToggle" class="chat-toggle">
+        <i class="fas fa-comments"></i>
+    </button>
+
+    <!-- Chatbot Container -->
+    <div id="chatbot" class="chatbot-container">
+        <div class="chatbot-header">
+            <div class="header-content">
+                <i class="fas fa-robot"></i>
+                <h2>Visa Assistant</h2>
+            </div>
+            <div class="header-actions">
+                <button id="minimizeChat" class="action-btn">
+                    <i class="fas fa-minus"></i>
+                </button>
+                <button id="closeChat" class="action-btn">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+
+        <div id="chatbotMessages" class="chatbot-messages">
+            <!-- Messages will be inserted here -->
+        </div>
+
+        <div class="typing-indicator hidden" id="typingIndicator">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <div class="chatbot-input-container">
+            <input 
+                type="text" 
+                id="userInput" 
+                class="chatbot-input" 
+                placeholder="Type your message..."
+            />
+            <button id="sendButton" class="send-btn">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+    </div>
+
+    <script src="js/chatbot.js"></script>
+</body>
+</html>

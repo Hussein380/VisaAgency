@@ -1,0 +1,22 @@
+# /admin/config.yml
+backend:
+  name: git-gateway
+  branch: main # or master, depending on your default branch
+
+media_folder: "assets"
+public_folder: "/assets"
+
+collections:
+  - name: "news"
+    label: "News & Events"
+    folder: "content/news"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Publish Date", name: "date", widget: "datetime"}
+      - {label: "Category", name: "category", widget: "select", options: ["Visa Update", "Education News", "Travel Alert", "Event"]}
+      - {label: "Featured Image", name: "image", widget: "image"}
+      - {label: "Short Description", name: "shortDescription", widget: "text"}
+      - {label: "Content", name: "body", widget: "markdown"}
+      - {label: "Read More Link", name: "readMoreLink", widget: "string"}

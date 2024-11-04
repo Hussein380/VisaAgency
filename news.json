@@ -1,0 +1,33 @@
+{
+    "news": [
+        {
+            "id": 1,
+            "title": "New Visa Regulations for 2024",
+            "date": "2024-01-15",
+            "shortDescription": "Important updates on visa application processes for multiple countries.",
+            "fullDescription": "Our agency has compiled the latest changes in visa regulations that could affect your travel plans. Stay informed about new requirements, documentation, and processing times.",
+            "category": "Visa Updates",
+            "readMoreLink": "https://example.com/news/visa-regulations-2024"
+        },
+        {
+            "id": 2,
+            "title": "Study Abroad Scholarship Opportunities",
+            "date": "2024-02-20", 
+            "shortDescription": "Exciting scholarship opportunities for international students.",
+            "fullDescription": "We've partnered with multiple universities to bring you exclusive scholarship information. Learn about funding options for your global education journey.",
+            "category": "Education",
+            "readMoreLink": "https://example.com/news/study-abroad-scholarships"
+        },
+        {
+            "id": 3,
+            "title": "Travel Trends: Top Destinations for 2024",
+            "date": "2024-03-10",
+            "shortDescription": "Explore the most trending travel destinations this year.",
+            "fullDescription": "Our travel experts have curated a list of must-visit destinations, along with visa and travel tips to make your journey seamless.",
+            "category": "Travel",
+            "readMoreLink": "https://www.uniserveducation.com/"
+        }
+
+        
+    ]
+}
