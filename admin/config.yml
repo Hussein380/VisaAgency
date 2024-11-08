@@ -2,8 +2,11 @@
 backend:
   name: git-gateway
   branch: main
-  identity_url: "https://https://tawheedvisaagency.netlify.app/admin/identity"
+  identity_url: "https://tawheedvisaagency.netlify.app/.netlify/identity"
+
+ 
   gateway_url: "https://api.netlify.com"
+
 
 media_folder: "assets"
 public_folder: "/assets"

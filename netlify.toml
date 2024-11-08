@@ -1,15 +1,20 @@
-# netlify.toml
 [build]
-  publish = "."
-  command = ""  # Leave empty if no build command
+  publish = "."          # Ensure the correct path to your site's public directory
+  command = ""           # Specify a build command if using a static site generator
 
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
 
-# This ensures the admin path works
+# Admin path redirect for Netlify CMS
 [[redirects]]
   from = "/admin/*"
   to = "/admin/index.html"
+  status = 200
+
+# Identity endpoint for Netlify Identity widget
+[[redirects]]
+  from = "/.netlify/identity/*"
+  to = "/.netlify/identity/:splat"
   status = 200
