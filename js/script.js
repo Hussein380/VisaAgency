@@ -21,11 +21,11 @@ const questions = [
         topic: "Travel Plans",
         question: "When are you planning to travel?",
         options: [
-            { text: "Within 1 month", score: 10 },
-            { text: "1-3 months from now", score: 20 },
-            { text: "3-6 months from now", score: 40 },
+            { text: "Within 1 month", score: 20 },
+            { text: "1-3 months from now", score: 40 },
+            { text: "3-6 months from now", score: 70 },
             { text: "More than 6 months away", score: 50 },
-            { text: "Just exploring options", score: 20 }
+            { text: "Just exploring options", score: 10 }
         ],
         tip: "Earlier planning gives us more time to strengthen your application!",
         weight: 1.2
@@ -35,10 +35,10 @@ const questions = [
         question: "Do you have a valid passport?",
         options: [
             { text: "Yes, valid for more than 2 years", score: 70 },
-            { text: "Yes, valid for 1-2 years", score: 40 },
-            { text: "Yes, but expires soon", score: 10 },
+            { text: "Yes, valid for 1-2 years", score: 50 },
+            { text: "Yes, but expires soon", score: 20 },
             { text: "No passport yet", score: 0 },
-            { text: "In process", score: 30 }
+            { text: "In process", score: 10 }
         ],
         tip: "Don't worry if your passport is expiring - we can help fast-track renewal!",
         weight: 1.8
@@ -47,10 +47,10 @@ const questions = [
         topic: "Visit Purpose",
         question: "Reason for travelling abroad?",
         options: [
-            { text: "Tourism/Holiday", score: 60 },
-            { text: "Business/Conference", score: 90 },
-            { text: "Family Visit", score: 50 },
-            { text: "Medical", score: 54 },
+            { text: "Tourism/Holiday", score: 50 },
+            { text: "Business/Conference", score: 50 },
+            { text: "Family Visit", score: 55 },
+            { text: "Medical", score: 64 },
             { text: "Education", score: 70 }
         ],
         tip: "Each purpose has unique opportunities - let us guide you to the best approach!",
@@ -60,11 +60,11 @@ const questions = [
         topic: "Financial Readiness",
         question: "Select what applies to you:",
         options: [
-            { text: "Regular income", score: 30 },
-            { text: "Business owner", score: 50 },
-            { text: "Property owner", score: 54 },
-            { text: "Savings", score: 85 },
-            { text: "Family support available", score: 60 }
+            { text: "Regular income", score: 45 },
+            { text: "Business owner", score: 60 },
+            { text: "Property owner", score: 80 },
+            { text: "Savings", score:  55},
+            { text: "Family support available", score: 35 }
         ],
         tip: "There are many ways to meet financial requirements - we'll show you how!",
         weight: 1.9
@@ -74,7 +74,7 @@ const questions = [
         question: "Have you traveled abroad before?",
         options: [
             { text: "Yes, multiple times", score: 70 },
-            { text: "Yes, once", score: 30 },
+            { text: "Yes, once", score: 40 },
             { text: "No, this is my first time", score: 20 },
             { text: "Had visa issues before", score: 5 }
         ],

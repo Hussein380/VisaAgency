@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="style/home.css">
 </head>
 
+<!-- Chat Toggle Button -->
 <button id="chatToggle" class="chat-toggle">
     <i class="fas fa-comments"></i>
 </button>
@@ -41,12 +42,7 @@
     </div>
 
     <div class="chatbot-input-container">
-        <input 
-            type="text" 
-            id="userInput" 
-            class="chatbot-input" 
-            placeholder="Type your message..."
-        />
+        <input type="text" id="userInput" class="chatbot-input" placeholder="Type your message..." />
         <button id="sendButton" class="send-btn">
             <i class="fas fa-paper-plane"></i>
         </button>
@@ -56,7 +52,6 @@
 <!-- Add chatbot scripts -->
 <link rel="stylesheet" href="style/chatbot.css">
 <script src="js/chatbot.js"></script>
-
 
 <body>
     <!-- Navigation -->
@@ -83,14 +78,16 @@
                         <a href="#">Work Visas</a>
                         <a href="#">Pilgrimage Visas</a>
                     </div>
+                    
 
                 </div>
                 <a href="news.html">News & Events</a>
-                <a href="#" onclick="showOthersDialog()">Others</a>
+                <a href="#" onclick="showOthersDialog()"></a>
+                <a href="#start-visa-journey">Contact Us</a>
             </div>
         </div>
     </nav>
-    
+
 
 
     <!-- Hero Section -->
@@ -124,13 +121,13 @@
     </div>
 
     <!-- Visa Readiness Score Feature -->
-  
+
     <div class="visa-readiness-checker">
         <!-- Introduction Section -->
         <div id="introductionSection" class="intro-section">
             <h2>Quick Visa Eligibility Check</h2>
             <p>Find out your visa application strength and how we can help improve your chances</p>
-    
+
             <div class="how-it-works">
                 <h3>How It Works</h3>
                 <ul>
@@ -140,12 +137,12 @@
                     <li><i class="fas fa-calendar-check"></i> Book a consultation to discuss your options</li>
                 </ul>
             </div>
-    
+
             <button id="startQuizButton" class="cta-btn start-btn">
                 Start Quick Visa Check
             </button>
         </div>
-    
+
         <!-- Progress Bar -->
         <div id="progressBarContainer" class="progress-container" style="display: none;">
             <h3 id="currentTopic" class="topic-header"></h3>
@@ -154,7 +151,7 @@
             </div>
             <div class="progress-text">Question <span id="currentQuestionNumber">1</span> of 5</div>
         </div>
-    
+
         <!-- Question Container -->
         <div id="questionContainer" class="question-section" style="display: none;">
             <div class="question-text"></div>
@@ -164,13 +161,13 @@
                 <p class="tip-text"></p>
             </div>
         </div>
-    
+
         <!-- Result Container -->
         <div id="resultContainer" class="result-section" style="display: none;">
             <div class="score-circle">
                 <svg viewBox="0 0 120 120">
-                    <circle class="base" cx="60" cy="60" r="58" fill="none" stroke="#eee" stroke-width="4"/>
-                    <circle class="progress" cx="60" cy="60" r="58" fill="none" stroke="#2563eb" stroke-width="4"/>
+                    <circle class="base" cx="60" cy="60" r="58" fill="none" stroke="#eee" stroke-width="4" />
+                    <circle class="progress" cx="60" cy="60" r="58" fill="none" stroke="#2563eb" stroke-width="4" />
                 </svg>
                 <div class="score-text">
                     <span id="scoreNumber">0</span>%
@@ -180,11 +177,12 @@
             <div id="tipsList" class="tips-list"></div>
             <div class="cta-buttons">
 
-                <button class="cta-btn consultation-btn" onclick="Calendly.showPopupWidget('https://calendly.com/huznigarane/30min'); return false;">
+                <button class="cta-btn consultation-btn"
+                    onclick="Calendly.showPopupWidget('https://calendly.com/huznigarane/30min'); return false;">
                     <i class="fas fa-calendar-alt"></i> Book Free Consultation
                 </button>
 
-                
+
                 <button class="cta-btn whatsapp-btn" onclick="startWhatsAppChat()">
                     <i class="fab fa-whatsapp"></i> WhatsApp Chat
                 </button>
@@ -204,15 +202,18 @@
                 <h2>Welcome to TawheedVisaAgency</h2>
                 <div class="subtitle">Your Trusted Partner in Visa Processing</div>
             </div>
-    
+
             <div class="about-grid">
                 <div class="about-content">
                     <h3>Who We Are</h3>
-                    <p>With over a decade of experience in visa processing, we've helped thousands of clients successfully obtain visas for various destinations. Our expert team understands the complexities of visa applications and works tirelessly to make your visa journey smooth and successful.</p>
-                    
+                    <p>With over a decade of experience in visa processing, we've helped thousands of clients
+                        successfully obtain visas for various destinations. Our expert team understands the complexities
+                        of visa applications and works tirelessly to make your visa journey smooth and successful.</p>
+
                     <h3>Our Commitment</h3>
-                    <p>We believe in transparent, honest, and professional service. Every application is handled with utmost care and attention to detail, ensuring the highest success rate for our clients.</p>
-    
+                    <p>We believe in transparent, honest, and professional service. Every application is handled with
+                        utmost care and attention to detail, ensuring the highest success rate for our clients.</p>
+
                     <div class="stats-container">
                         <div class="stat-item">
                             <i class="fas fa-check-circle"></i>
@@ -231,7 +232,7 @@
                         </div>
                     </div>
                 </div>
-    
+
                 <div class="about-services">
                     <div class="service-highlight">
                         <h3>How We Make Visa Processing Easy</h3>
@@ -240,14 +241,16 @@
                                 <i class="fas fa-file-alt"></i>
                                 <div>
                                     <h4>Document Preparation</h4>
-                                    <p>We guide you through required documentation and ensure everything meets embassy standards.</p>
+                                    <p>We guide you through required documentation and ensure everything meets embassy
+                                        standards.</p>
                                 </div>
                             </li>
                             <li>
                                 <i class="fas fa-calendar-check"></i>
                                 <div>
                                     <h4>Application Management</h4>
-                                    <p>We handle the entire application process, from filling forms to scheduling interviews.</p>
+                                    <p>We handle the entire application process, from filling forms to scheduling
+                                        interviews.</p>
                                 </div>
                             </li>
                             <li>
@@ -261,7 +264,8 @@
                                 <i class="fas fa-shield-alt"></i>
                                 <div>
                                     <h4>Legal Compliance</h4>
-                                    <p>We ensure all applications comply with current immigration laws and regulations.</p>
+                                    <p>We ensure all applications comply with current immigration laws and regulations.
+                                    </p>
                                 </div>
                             </li>
                         </ul>
@@ -270,12 +274,13 @@
             </div>
 
 
-            <div class="cta-section">
+            <div class="cta-section" id="start-visa-journey">
                 <h3>Ready to Start Your Visa Journey?</h3>
                 <p>Let us handle the complexity while you focus on planning your trip.</p>
                 <div class="cta-buttons">
                     <!-- Button now just points to the Calendly badge widget that is always visible -->
-                    <button class="cta-btn consultation-btn" onclick="Calendly.showPopupWidget('https://calendly.com/huznigarane/30min'); return false;">
+                    <button class="cta-btn consultation-btn"
+                        onclick="Calendly.showPopupWidget('https://calendly.com/huznigarane/30min'); return false;">
                         <i class="fas fa-calendar-alt"></i> Book Free Consultation
                     </button>
                     <button class="cta-btn whatsapp-btn" onclick="startWhatsAppChat()">
@@ -286,12 +291,12 @@
                     </button>
                 </div>
             </div>
-            
-            
 
-            
+
+
+
         </div>
-        
+
     </section>
 
     <!-- Footer -->
@@ -322,19 +327,19 @@
     <script src="js/script.js"></script>
     <script src="js/main.js"></script>
     <!-- Calendly badge widget begin -->
-<link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
-<script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
-<script type="text/javascript">
-    window.onload = function() {
-        Calendly.initBadgeWidget({
-            url: 'https://calendly.com/huznigarane/30min', // Replace with your Calendly link
-            text: 'Schedule time with me', 
-            color: '#0069ff', 
-            textColor: '#ffffff',
-            branding: true // Optionally show Calendly branding
-        });
-    }
-</script>
+    <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
+    <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
+    <script type="text/javascript">
+        window.onload = function () {
+            Calendly.initBadgeWidget({
+                url: 'https://calendly.com/huznigarane/30min', // Replace with your Calendly link
+                text: 'Schedule time with me',
+                color: '#0069ff',
+                textColor: '#ffffff',
+                branding: true // Optionally show Calendly branding
+            });
+        }
+    </script>
 </body>
 
 </html>

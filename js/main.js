@@ -49,3 +49,51 @@ const themeToggle = document.getElementById('themeToggle');
 themeToggle.addEventListener('click', () => {
   document.body.classList.toggle('dark-theme');
 });
+
+document.addEventListener("DOMContentLoaded", function() {
+  const visaCard = document.getElementById("visa-card");
+
+  // Visa info data
+  const visaInfo = {
+      visit: {
+          title: "Visit Visa",
+          requirements: "Passport, completed application, proof of accommodation, travel itinerary, etc.",
+          assistance: "Our agency assists with documentation, application submission, and interview preparation."
+      },
+      student: {
+          title: "Student Visa",
+          requirements: "Acceptance letter, financial proof, passport, completed application, etc.",
+          assistance: "We help you compile documents, apply to embassies, and prepare for interviews."
+      },
+      work: {
+          title: "Work Visa",
+          requirements: "Employment letter, passport, completed application, health check, etc.",
+          assistance: "We guide you through the employer verification process and visa application steps."
+      },
+      pilgrimage: {
+          title: "Pilgrimage Visa",
+          requirements: "Passport, proof of faith, travel itinerary, completed application, etc.",
+          assistance: "Our agency manages your application and ensures all documents are in place for a smooth process."
+      }
+  };
+
+  // Show card when a visa type is clicked
+  document.querySelectorAll(".dropdown-content a").forEach(link => {
+      link.addEventListener("click", function(event) {
+          event.preventDefault();
+          const visaType = this.getAttribute("data-info");
+          const info = visaInfo[visaType];
+
+          // Populate the card with visa details
+          visaCard.innerHTML = `
+              <h2>${info.title}</h2>
+              <p><strong>Requirements:</strong> ${info.requirements}</p>
+              <p><strong>How We Help:</strong> ${info.assistance}</p>
+          `;
+
+          // Show the card
+          visaCard.classList.remove("hidden");
+      });
+  });
+});
+

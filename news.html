@@ -1,15 +1,16 @@
-
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Latest News & Events</title>
     <link rel="stylesheet" href="style/news.css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    
+
     <!-- Netlify Identity Widget -->
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 </head>
+
 <body>
     <section id="news-events" class="news-events-section">
         <div class="container">
@@ -17,11 +18,11 @@
                 <h2>Latest News & Events</h2>
                 <p>Stay updated with the latest visa, travel, and education insights</p>
             </div>
-            
+
             <div id="newsContainer" class="news-grid">
                 <!-- News cards will be dynamically populated here -->
             </div>
-            
+
             <div class="news-cta">
                 <a href="news.html" class="view-all-btn">View All News</a>
             </div>
@@ -31,7 +32,7 @@
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
         AOS.init();
-        
+
         // Netlify Identity
         if (window.netlifyIdentity) {
             window.netlifyIdentity.on("init", user => {
@@ -45,4 +46,5 @@
     </script>
     <script src="js/news.js"></script>
 </body>
+
 </html>
