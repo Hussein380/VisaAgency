@@ -1,7 +1,9 @@
 # /admin/config.yml
 backend:
   name: git-gateway
-  branch: main # or master, depending on your default branch
+  branch: main
+  identity_url: "https://https://tawheedvisaagency.netlify.app/admin/identity"
+  gateway_url: "https://api.netlify.com"
 
 media_folder: "assets"
 public_folder: "/assets"
@@ -20,3 +22,23 @@ collections:
       - {label: "Short Description", name: "shortDescription", widget: "text"}
       - {label: "Content", name: "body", widget: "markdown"}
       - {label: "Read More Link", name: "readMoreLink", widget: "string"}
+
+# netlify.toml
+[build]
+  publish = "."
+  command = ""
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/admin/*"
+  to = "/admin/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/.netlify/identity/*"
+  to = "/.netlify/identity/:splat"
+  status = 200
