@@ -1,12 +1,15 @@
-// news.js - Enhanced news management system with filtering
+// news.js - Improved news management system
+
 class NewsManager {
     constructor() {
         this.newsContainer = document.getElementById('newsContainer');
+        this.newsList = document.getElementById('newsList');
         this.loadingSpinner = document.querySelector('.loading-spinner');
         this.emptyState = document.querySelector('.empty-state');
         this.errorState = document.querySelector('.error-state');
         this.filterButtons = document.querySelectorAll('.filter-btn');
         this.currentFilter = 'all';
+        this.isAdmin = window.location.pathname.includes('/admin'); // Updated check for admin
         this.initialize();
     }
 
@@ -14,134 +17,104 @@ class NewsManager {
         this.setupFilterListeners();
         this.setupRetryButton();
         this.loadContent();
-        
-        // Listen for localStorage changes
-        window.addEventListener('storage', () => this.loadContent());
-
-        // Auto-refresh news view periodically
-        setInterval(() => this.loadContent(), 30000);
+        this.autoRefreshNews();
     }
 
     setupFilterListeners() {
         this.filterButtons.forEach(btn => {
             btn.addEventListener('click', () => {
-                this.filterButtons.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
                 this.currentFilter = btn.dataset.category;
                 this.loadContent();
+                this.updateActiveFilter(btn);
             });
         });
     }
 
+    updateActiveFilter(activeBtn) {
+        this.filterButtons.forEach(btn => btn.classList.remove('active'));
+        activeBtn.classList.add('active');
+    }
+
     setupRetryButton() {
-        document.querySelector('.retry-btn')?.addEventListener('click', () => {
+        const retryBtn = this.errorState.querySelector('.retry-btn');
+        retryBtn.addEventListener('click', () => {
             this.loadContent();
+            this.errorState.classList.add('hidden');
         });
     }
 
-    showLoading(show = true) {
-        this.loadingSpinner.style.display = show ? 'flex' : 'none';
-        this.newsContainer.style.display = show ? 'none' : 'grid';
-        this.emptyState.classList.add('hidden');
-        this.errorState.classList.add('hidden');
+    autoRefreshNews() {
+        if (!this.isAdmin) {
+            setInterval(() => this.loadContent(), 30000);
+        }
     }
 
     async loadContent() {
-        this.showLoading(true);
-
+        this.toggleLoading(true);
         try {
-            await new Promise(resolve => setTimeout(resolve, 500)); // Simulate network delay
-            const newsItems = JSON.parse(localStorage.getItem('newsItems') || '[]')
-                .sort((a, b) => new Date(b.date) - new Date(a.date));
-
-            const filteredItems = this.filterItems(newsItems);
-            this.renderNewsView(filteredItems);
+            const newsData = await this.fetchNews();
+            this.displayNews(newsData);
         } catch (error) {
-            console.error('Error loading news:', error);
-            this.showError();
+            this.toggleError(true);
+        } finally {
+            this.toggleLoading(false);
         }
     }
 
-    filterItems(items) {
-        if (this.currentFilter === 'all') return items;
-        return items.filter(item => 
-            item.category.toLowerCase() === this.currentFilter.toLowerCase()
-        );
+    async fetchNews() {
+        // Fetch news data from localStorage instead of an API
+        const storedNews = localStorage.getItem('adminNewsData');
+        if (!storedNews) throw new Error("No news data found.");
+        const newsData = JSON.parse(storedNews);
+
+        // Filter news based on the current category
+        return this.currentFilter === 'all'
+            ? newsData
+            : newsData.filter(news => news.category === this.currentFilter);
     }
 
-    renderNewsView(newsItems) {
-        this.showLoading(false);
-        
-        if (newsItems.length === 0) {
-            this.showEmptyState();
+    displayNews(newsData) {
+        this.newsContainer.innerHTML = ''; // Clear existing content
+        if (newsData.length === 0) {
+            this.toggleEmpty(true);
             return;
         }
 
-        this.newsContainer.innerHTML = '';
-        
-        // Display only the latest 3 items in news view
-        newsItems.slice(0, 3).forEach((item, index) => {
-            const newsCard = this.createNewsCard(item);
-            newsCard.style.animationDelay = `${index * 0.2}s`;
-            this.newsContainer.appendChild(newsCard);
+        newsData.forEach(item => {
+            const newsItem = this.createNewsItem(item);
+            this.newsContainer.appendChild(newsItem);
         });
 
-        if (window.AOS) {
-            AOS.refresh();
-        }
+        this.toggleEmpty(false);
     }
 
-    createNewsCard(newsItem) {
-        const card = document.createElement('div');
-        card.className = 'news-card';
-        card.setAttribute('data-aos', 'fade-up');
-
-        const imagePath = newsItem.image || 
-            `https://via.placeholder.com/400x200?text=${encodeURIComponent(newsItem.category)}`;
-        
-        card.innerHTML = `
-            <div class="news-card-image" style="background-image: url('${this.sanitizeHTML(imagePath)}')"></div>
+    createNewsItem(news) {
+        const itemDiv = document.createElement('div');
+        itemDiv.classList.add('news-card');
+        itemDiv.innerHTML = `
+            <div class="news-card-image" style="background-image: url('${news.imageUrl || ''}')"></div>
             <div class="news-card-content">
-                <span class="news-card-date">${this.formatDate(newsItem.date)}</span>
-                <span class="news-card-category">${this.sanitizeHTML(newsItem.category)}</span>
-                <h3 class="news-card-title">${this.sanitizeHTML(newsItem.title)}</h3>
-                <p class="news-card-description">${this.sanitizeHTML(newsItem.excerpt)}</p>
-                ${newsItem.link ? 
-                    `<a href="${this.sanitizeHTML(newsItem.link)}" class="news-card-link" 
-                     target="_blank" rel="noopener noreferrer">Read More</a>` 
-                    : ''}
-            </div>
-        `;
-        
-        return card;
+                <span class="news-card-date">${news.date}</span>
+                <span class="news-card-category">${news.category}</span>
+                <h3 class="news-card-title">${news.title}</h3>
+                <p class="news-card-description">${news.description}</p>
+                <a href="${news.link}" class="news-card-link" target="_blank">Read More</a>
+            </div>`;
+        return itemDiv;
     }
 
-    showEmptyState() {
-        this.newsContainer.style.display = 'none';
-        this.emptyState.classList.remove('hidden');
+    toggleLoading(isLoading) {
+        this.loadingSpinner.classList.toggle('hidden', !isLoading);
     }
 
-    showError() {
-        this.newsContainer.style.display = 'none';
-        this.errorState.classList.remove('hidden');
+    toggleEmpty(isEmpty) {
+        this.emptyState.classList.toggle('hidden', !isEmpty);
     }
 
-    sanitizeHTML(str) {
-        const div = document.createElement('div');
-        div.textContent = str;
-        return div.innerHTML;
-    }
-
-    formatDate(dateStr) {
-        return new Date(dateStr).toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
-        });
+    toggleError(hasError) {
+        this.errorState.classList.toggle('hidden', !hasError);
     }
 }
 
 // Initialize the NewsManager when the DOM is loaded
-document.addEventListener('DOMContentLoaded', () => {
-    new NewsManager();
-});
+document.addEventListener('DOMContentLoaded', () => new NewsManager());
