@@ -1,179 +1,192 @@
+// admin.js
 let editingId = null;
 let currentSection = 'newsEvents';
-
-// Switch between tabs
-function switchTab(section) {
-    // Update active tab
-    document.querySelectorAll('.tab-btn').forEach(btn => {
-        btn.classList.remove('active');
-    });
-    document.querySelector(`[onclick="switchTab('${section}')"]`).classList.add('active');
-
-    // Update visible content
-    document.querySelectorAll('.tab-content').forEach(content => {
-        content.classList.remove('active');
-    });
-    document.getElementById(section).classList.add('active');
-
-    currentSection = section;
-    loadContent(section);
-}
-
-// Toggle form visibility
-function toggleForm(formId) {
-    const form = document.getElementById(formId);
-    form.style.display = form.style.display === 'none' ? 'block' : 'none';
-    if (form.style.display === 'none') {
-        resetForm(formId);
-    }
-}
-
-// Reset form
-function resetForm(formId) {
-    document.getElementById(formId).reset();
-    editingId = null;
-}
 
 // Handle News/Events form submission
 document.getElementById('newsForm').addEventListener('submit', async function(e) {
     e.preventDefault();
     
     const newsItem = {
+        id: editingId || Date.now(),
         title: document.getElementById('title').value,
         category: document.getElementById('category').value,
         date: document.getElementById('date').value,
         excerpt: document.getElementById('excerpt').value,
         content: document.getElementById('content').value,
-        image: document.getElementById('image').value,
-        link: document.getElementById('link').value
+        image: document.getElementById('image').value || '',
+        link: document.getElementById('link').value || ''
     };
 
-    const endpoint = editingId ? `/api/news/${editingId}` : '/api/news';
-    const method = editingId ? 'PUT' : 'POST';
+    try {
+        // Get existing news items from localStorage
+        let newsItems = JSON.parse(localStorage.getItem('newsItems') || '[]');
+        
+        if (editingId) {
+            // Update existing item
+            newsItems = newsItems.map(item => 
+                item.id === editingId ? newsItem : item
+            );
+        } else {
+            // Add new item
+            newsItems.push(newsItem);
+        }
 
-    await fetch(endpoint, {
-        method: method,
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(newsItem)
-    });
-
-    loadContent('newsEvents');
-    toggleForm('newsForm');
-});
-
-// Handle Study Abroad form submission
-document.getElementById('studyAbroadForm').addEventListener('submit', async function(e) {
-    e.preventDefault();
-    
-    const program = {
-        title: document.getElementById('programTitle').value,
-        country: document.getElementById('country').value,
-        duration: document.getElementById('duration').value,
-        description: document.getElementById('programDescription').value,
-        requirements: document.getElementById('requirements').value,
-        link: document.getElementById('programLink').value,
-        image: document.getElementById('programImage').value
-    };
-
-    const endpoint = editingId ? `/api/study-abroad/${editingId}` : '/api/study-abroad';
-    const method = editingId ? 'PUT' : 'POST';
-
-    await fetch(endpoint, {
-        method: method,
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(program)
-    });
-
-    loadContent('studyAbroad');
-    toggleForm('studyAbroadForm');
+        // Save to localStorage
+        localStorage.setItem('newsItems', JSON.stringify(newsItems));
+        
+        // Reset form and refresh display
+        document.getElementById('newsForm').reset();
+        editingId = null;
+        toggleForm('newsForm');
+        
+        // Refresh the news list
+        loadContent('newsEvents');
+        
+        showNotification('News item saved successfully!', 'success');
+    } catch (error) {
+        console.error('Error saving news:', error);
+        showNotification('Failed to save news item', 'error');
+    }
 });
 
 // Load content for current section
 async function loadContent(section) {
-    const endpoint = section === 'newsEvents' ? '/api/news' : '/api/study-abroad';
-    const response = await fetch(endpoint);
-    const items = await response.json();
-    
-    const listElement = document.getElementById(section === 'newsEvents' ? 'newsList' : 'studyAbroadList');
-    
     if (section === 'newsEvents') {
-        listElement.innerHTML = items.map(item => `
-            <div class="content-item">
-                <div>
-                    <h3>${item.title}</h3>
-                    <p>${new Date(item.date).toLocaleDateString()} - ${item.category}</p>
-                    <p>${item.excerpt}</p>
-                </div>
-                <div class="content-actions">
-                    <button class="edit-btn" onclick="editItem('newsEvents', ${item.id})">
-                        <i class="fas fa-edit"></i>
-                    </button>
-                    <button class="delete-btn" onclick="deleteItem('newsEvents', ${item.id})">
-                        <i class="fas fa-trash"></i>
-                    </button>
-                </div>
-            </div>
-        `).join('');
-    } else {
-        listElement.innerHTML = items.map(item => `
-            <div class="content-item">
-                <div>
-                    <h3>${item.title}</h3>
-                    <p>${item.country} - ${item.duration}</p>
-                    <p>${item.description.substring(0, 150)}...</p>
-                </div>
-                <div class="content-actions">
-                    <button class="edit-btn" onclick="editItem('studyAbroad', ${item.id})">
-                        <i class="fas fa-edit"></i>
-                    </button>
-                    <button class="delete-btn" onclick="deleteItem('studyAbroad', ${item.id})">
-                        <i class="fas fa-trash"></i>
-                    </button>
-                </div>
-            </div>
-        `).join('');
-    }
-}
-
-// Edit item
-async function editItem(section, id) {
-    const endpoint = section === 'newsEvents' ? `/api/news/${id}` : `/api/study-abroad/${id}`;
-    const response = await fetch(endpoint);
-    const item = await response.json();
-    
-    editingId = id;
-    
-    if (section === 'newsEvents') {
-        document.getElementById('title').value = item.title;
-        document.getElementById('category').value = item.category;
-        document.getElementById('date').value = item.date;
-        document.getElementById('excerpt').value = item.excerpt;
-        document.getElementById('content').value = item.content;
-        document.getElementById('image').value = item.image || '';
-        document.getElementById('link').value = item.link || '';
-        toggleForm('newsForm');
-    } else {
-        document.getElementById('programTitle').value = item.title;
-        document.getElementById('country').value = item.country;
-        document.getElementById('duration').value = item.duration;
-        document.getElementById('programDescription').value = item.description;
-        document.getElementById('requirements').value = item.requirements;
-        document.getElementById('programLink').value = item.link || '';
-        document.getElementById('programImage').value = item.image || '';
-        toggleForm('studyAbroadForm');
+        try {
+            const newsItems = JSON.parse(localStorage.getItem('newsItems') || '[]');
+            const listElement = document.getElementById('newsList');
+            
+            listElement.innerHTML = newsItems
+                .sort((a, b) => new Date(b.date) - new Date(a.date))
+                .map(item => `
+                    <div class="content-item">
+                        <div>
+                            <h3>${sanitizeHTML(item.title)}</h3>
+                            <p>${formatDate(item.date)} - ${sanitizeHTML(item.category)}</p>
+                            <p>${sanitizeHTML(item.excerpt)}</p>
+                        </div>
+                        <div class="content-actions">
+                            <button class="edit-btn" onclick="editItem('newsEvents', ${item.id})">
+                                <i class="fas fa-edit"></i> Edit
+                            </button>
+                            <button class="delete-btn" onclick="deleteItem('newsEvents', ${item.id})">
+                                <i class="fas fa-trash"></i> Delete
+                            </button>
+                        </div>
+                    </div>
+                `).join('');
+        } catch (error) {
+            console.error('Error loading news:', error);
+            showNotification('Error loading news items', 'error');
+        }
     }
 }
 
 // Delete item
 async function deleteItem(section, id) {
     if (confirm('Are you sure you want to delete this item?')) {
-        const endpoint = section === 'newsEvents' ? `/api/news/${id}` : `/api/study-abroad/${id}`;
-        await fetch(endpoint, { method: 'DELETE' });
-        loadContent(section);
+        try {
+            let newsItems = JSON.parse(localStorage.getItem('newsItems') || '[]');
+            newsItems = newsItems.filter(item => item.id !== id);
+            localStorage.setItem('newsItems', JSON.stringify(newsItems));
+            loadContent(section);
+            showNotification('Item deleted successfully', 'success');
+        } catch (error) {
+            console.error('Error deleting item:', error);
+            showNotification('Failed to delete item', 'error');
+        }
     }
 }
 
-// Initialize the dashboard
+// Edit item
+async function editItem(section, id) {
+    try {
+        const newsItems = JSON.parse(localStorage.getItem('newsItems') || '[]');
+        const item = newsItems.find(item => item.id === id);
+        
+        if (item) {
+            editingId = id;
+            document.getElementById('title').value = item.title;
+            document.getElementById('category').value = item.category;
+            document.getElementById('date').value = item.date;
+            document.getElementById('excerpt').value = item.excerpt;
+            document.getElementById('content').value = item.content;
+            document.getElementById('image').value = item.image || '';
+            document.getElementById('link').value = item.link || '';
+            
+            toggleForm('newsForm');
+        }
+    } catch (error) {
+        console.error('Error editing item:', error);
+        showNotification('Failed to load item for editing', 'error');
+    }
+}
+
+// Initialize
 document.addEventListener('DOMContentLoaded', () => {
     loadContent('newsEvents');
 });
+
+// news.js
+function createNewsCard(newsItem) {
+    const card = document.createElement('div');
+    card.className = 'news-card';
+    card.setAttribute('data-aos', 'fade-up');
+
+    const imagePath = newsItem.image || `https://via.placeholder.com/400x200?text=${encodeURIComponent(newsItem.category)}`;
+    
+    card.innerHTML = `
+        <div class="news-card-image" style="background-image: url('${sanitizeHTML(imagePath)}')"></div>
+        <div class="news-card-content">
+            <span class="news-card-date">${formatDate(newsItem.date)}</span>
+            <span class="news-card-category">${sanitizeHTML(newsItem.category)}</span>
+            <h3 class="news-card-title">${sanitizeHTML(newsItem.title)}</h3>
+            <p class="news-card-description">${sanitizeHTML(newsItem.excerpt)}</p>
+            ${newsItem.link ? 
+                `<a href="${sanitizeHTML(newsItem.link)}" class="news-card-link" target="_blank" rel="noopener noreferrer">Read More</a>` 
+                : ''}
+        </div>
+    `;
+    
+    return card;
+}
+
+function loadNews() {
+    const newsContainer = document.getElementById('newsContainer');
+    if (!newsContainer) return;
+
+    try {
+        const newsItems = JSON.parse(localStorage.getItem('newsItems') || '[]');
+        
+        // Clear existing content
+        newsContainer.innerHTML = '';
+        
+        if (newsItems.length === 0) {
+            newsContainer.innerHTML = '<p class="no-news">No news items available.</p>';
+            return;
+        }
+
+        // Sort by date and take latest 3
+        const recentNews = newsItems
+            .sort((a, b) => new Date(b.date) - new Date(a.date))
+            .slice(0, 3);
+
+        recentNews.forEach((item, index) => {
+            const newsCard = createNewsCard(item);
+            if (newsCard) {
+                newsCard.style.animationDelay = `${index * 0.2}s`;
+                newsContainer.appendChild(newsCard);
+            }
+        });
+
+        if (window.AOS) {
+            AOS.refresh();
+        }
+    } catch (error) {
+        console.error('Error loading news:', error);
+        newsContainer.innerHTML = '<p class="error">Error loading news items.</p>';
+    }
+}
+
+// Initialize news display
+document.addEventListener('DOMContentLoaded', loadNews);
