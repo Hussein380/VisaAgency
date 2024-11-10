@@ -1,192 +1,177 @@
-// admin.js
-let editingId = null;
-let currentSection = 'newsEvents';
-
-// Handle News/Events form submission
-document.getElementById('newsForm').addEventListener('submit', async function(e) {
-    e.preventDefault();
+// Admin Panel JavaScript Module
+const adminPanel = {
+    // State
+    activeSection: 'newsEvents',
+    newsData: [],
     
-    const newsItem = {
-        id: editingId || Date.now(),
-        title: document.getElementById('title').value,
-        category: document.getElementById('category').value,
-        date: document.getElementById('date').value,
-        excerpt: document.getElementById('excerpt').value,
-        content: document.getElementById('content').value,
-        image: document.getElementById('image').value || '',
-        link: document.getElementById('link').value || ''
-    };
+    // Initialize the admin panel
+    init() {
+        this.loadNewsData();
+        this.setupEventListeners();
+        this.renderNewsList();
+        this.renderStudyAbroadList();
+        this.showActiveTab(this.activeSection);
+    },
 
-    try {
-        // Get existing news items from localStorage
-        let newsItems = JSON.parse(localStorage.getItem('newsItems') || '[]');
-        
-        if (editingId) {
-            // Update existing item
-            newsItems = newsItems.map(item => 
-                item.id === editingId ? newsItem : item
-            );
-        } else {
-            // Add new item
-            newsItems.push(newsItem);
-        }
+    // Setup Event Listeners
+    setupEventListeners() {
+        // Tab switching
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const section = btn.dataset.section;
+                this.showActiveTab(section);
+            });
+        });
 
-        // Save to localStorage
-        localStorage.setItem('newsItems', JSON.stringify(newsItems));
-        
-        // Reset form and refresh display
-        document.getElementById('newsForm').reset();
-        editingId = null;
-        toggleForm('newsForm');
-        
-        // Refresh the news list
-        loadContent('newsEvents');
-        
-        showNotification('News item saved successfully!', 'success');
-    } catch (error) {
-        console.error('Error saving news:', error);
-        showNotification('Failed to save news item', 'error');
-    }
-});
+        // Add buttons
+        document.querySelectorAll('.add-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const formId = btn.dataset.form;
+                document.getElementById(formId).classList.remove('hidden');
+            });
+        });
 
-// Load content for current section
-async function loadContent(section) {
-    if (section === 'newsEvents') {
-        try {
-            const newsItems = JSON.parse(localStorage.getItem('newsItems') || '[]');
-            const listElement = document.getElementById('newsList');
-            
-            listElement.innerHTML = newsItems
-                .sort((a, b) => new Date(b.date) - new Date(a.date))
-                .map(item => `
-                    <div class="content-item">
-                        <div>
-                            <h3>${sanitizeHTML(item.title)}</h3>
-                            <p>${formatDate(item.date)} - ${sanitizeHTML(item.category)}</p>
-                            <p>${sanitizeHTML(item.excerpt)}</p>
-                        </div>
-                        <div class="content-actions">
-                            <button class="edit-btn" onclick="editItem('newsEvents', ${item.id})">
-                                <i class="fas fa-edit"></i> Edit
-                            </button>
-                            <button class="delete-btn" onclick="deleteItem('newsEvents', ${item.id})">
-                                <i class="fas fa-trash"></i> Delete
-                            </button>
-                        </div>
+        // Form submissions
+        document.getElementById('newsForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            this.handleNewsSubmit(e.target);
+        });
+
+        document.getElementById('studyAbroadForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            this.handleStudyAbroadSubmit(e.target);
+        });
+    },
+
+    // Show active tab
+    showActiveTab(sectionId) {
+        // Update tab buttons
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.section === sectionId);
+        });
+
+        // Update content sections
+        document.querySelectorAll('.tab-content').forEach(section => {
+            section.classList.toggle('active', section.id === sectionId);
+        });
+
+        this.activeSection = sectionId;
+    },
+
+    // Handle news form submission
+    handleNewsSubmit(form) {
+        const formData = {
+            id: Date.now().toString(), // Unique ID
+            title: form.title.value,
+            category: form.category.value,
+            date: form.date.value,
+            excerpt: form.excerpt.value,
+            content: form.content.value,
+            link: form.link.value,
+            image: form.image.value,
+            timestamp: new Date().toISOString()
+        };
+
+        this.newsData.unshift(formData); // Add to beginning of array
+        this.saveNewsData();
+        this.renderNewsList();
+        this.showNotification('News item added successfully!', 'success');
+        form.reset();
+        form.classList.add('hidden');
+    },
+
+    // Render news list
+    renderNewsList() {
+        const newsListElement = document.getElementById('newsList');
+        newsListElement.innerHTML = this.newsData.map(item => `
+            <div class="content-item" data-id="${item.id}">
+                <div class="content-info">
+                    <h3>${item.title}</h3>
+                    <div class="meta">
+                        <span>${new Date(item.date).toLocaleDateString()}</span> | 
+                        <span>${item.category}</span>
                     </div>
-                `).join('');
-        } catch (error) {
-            console.error('Error loading news:', error);
-            showNotification('Error loading news items', 'error');
-        }
-    }
-}
+                    <div class="excerpt">${item.excerpt}</div>
+                    ${item.image ? `<img src="${item.image}" alt="${item.title}" class="preview-image">` : ''}
+                </div>
+                <div class="content-actions">
+                    <button class="edit-btn" onclick="adminPanel.editNews('${item.id}')">
+                        <i class="fas fa-edit"></i> Edit
+                    </button>
+                    <button class="delete-btn" onclick="adminPanel.deleteNews('${item.id}')">
+                        <i class="fas fa-trash"></i> Delete
+                    </button>
+                </div>
+            </div>
+        `).join('');
+    },
 
-// Delete item
-async function deleteItem(section, id) {
-    if (confirm('Are you sure you want to delete this item?')) {
-        try {
-            let newsItems = JSON.parse(localStorage.getItem('newsItems') || '[]');
-            newsItems = newsItems.filter(item => item.id !== id);
-            localStorage.setItem('newsItems', JSON.stringify(newsItems));
-            loadContent(section);
-            showNotification('Item deleted successfully', 'success');
-        } catch (error) {
-            console.error('Error deleting item:', error);
-            showNotification('Failed to delete item', 'error');
-        }
-    }
-}
+    // Edit news item
+    editNews(id) {
+        const item = this.newsData.find(news => news.id === id);
+        if (!item) return;
 
-// Edit item
-async function editItem(section, id) {
-    try {
-        const newsItems = JSON.parse(localStorage.getItem('newsItems') || '[]');
-        const item = newsItems.find(item => item.id === id);
+        const form = document.getElementById('newsForm');
+        form.classList.remove('hidden');
         
-        if (item) {
-            editingId = id;
-            document.getElementById('title').value = item.title;
-            document.getElementById('category').value = item.category;
-            document.getElementById('date').value = item.date;
-            document.getElementById('excerpt').value = item.excerpt;
-            document.getElementById('content').value = item.content;
-            document.getElementById('image').value = item.image || '';
-            document.getElementById('link').value = item.link || '';
-            
-            toggleForm('newsForm');
-        }
-    } catch (error) {
-        console.error('Error editing item:', error);
-        showNotification('Failed to load item for editing', 'error');
-    }
-}
-
-// Initialize
-document.addEventListener('DOMContentLoaded', () => {
-    loadContent('newsEvents');
-});
-
-// news.js
-function createNewsCard(newsItem) {
-    const card = document.createElement('div');
-    card.className = 'news-card';
-    card.setAttribute('data-aos', 'fade-up');
-
-    const imagePath = newsItem.image || `https://via.placeholder.com/400x200?text=${encodeURIComponent(newsItem.category)}`;
-    
-    card.innerHTML = `
-        <div class="news-card-image" style="background-image: url('${sanitizeHTML(imagePath)}')"></div>
-        <div class="news-card-content">
-            <span class="news-card-date">${formatDate(newsItem.date)}</span>
-            <span class="news-card-category">${sanitizeHTML(newsItem.category)}</span>
-            <h3 class="news-card-title">${sanitizeHTML(newsItem.title)}</h3>
-            <p class="news-card-description">${sanitizeHTML(newsItem.excerpt)}</p>
-            ${newsItem.link ? 
-                `<a href="${sanitizeHTML(newsItem.link)}" class="news-card-link" target="_blank" rel="noopener noreferrer">Read More</a>` 
-                : ''}
-        </div>
-    `;
-    
-    return card;
-}
-
-function loadNews() {
-    const newsContainer = document.getElementById('newsContainer');
-    if (!newsContainer) return;
-
-    try {
-        const newsItems = JSON.parse(localStorage.getItem('newsItems') || '[]');
-        
-        // Clear existing content
-        newsContainer.innerHTML = '';
-        
-        if (newsItems.length === 0) {
-            newsContainer.innerHTML = '<p class="no-news">No news items available.</p>';
-            return;
-        }
-
-        // Sort by date and take latest 3
-        const recentNews = newsItems
-            .sort((a, b) => new Date(b.date) - new Date(a.date))
-            .slice(0, 3);
-
-        recentNews.forEach((item, index) => {
-            const newsCard = createNewsCard(item);
-            if (newsCard) {
-                newsCard.style.animationDelay = `${index * 0.2}s`;
-                newsContainer.appendChild(newsCard);
+        // Populate form
+        Object.keys(item).forEach(key => {
+            if (form[key]) {
+                form[key].value = item[key];
             }
         });
 
-        if (window.AOS) {
-            AOS.refresh();
-        }
-    } catch (error) {
-        console.error('Error loading news:', error);
-        newsContainer.innerHTML = '<p class="error">Error loading news items.</p>';
-    }
-}
+        // Remove existing item
+        this.deleteNews(id, false); // Don't save yet
+        
+        // Scroll to form
+        form.scrollIntoView({ behavior: 'smooth' });
+    },
 
-// Initialize news display
-document.addEventListener('DOMContentLoaded', loadNews);
+    // Delete news item
+    deleteNews(id, shouldSave = true) {
+        this.newsData = this.newsData.filter(item => item.id !== id);
+        if (shouldSave) {
+            this.saveNewsData();
+            this.renderNewsList();
+            this.showNotification('News item deleted successfully!', 'success');
+        }
+    },
+
+    // Cancel edit
+    cancelEdit() {
+        const form = document.getElementById('newsForm');
+        form.reset();
+        form.classList.add('hidden');
+    },
+
+    // Local Storage Operations
+    loadNewsData() {
+        const stored = localStorage.getItem('adminNewsData');
+        this.newsData = stored ? JSON.parse(stored) : [];
+    },
+
+    saveNewsData() {
+        localStorage.setItem('adminNewsData', JSON.stringify(this.newsData));
+    },
+
+    // Notification System
+    showNotification(message, type = 'success') {
+        const container = document.getElementById('notificationContainer');
+        const notification = document.createElement('div');
+        notification.className = `notification ${type}`;
+        notification.textContent = message;
+
+        container.appendChild(notification);
+
+        // Remove notification after 3 seconds
+        setTimeout(() => {
+            notification.style.animation = 'slideOut 0.3s ease-out';
+            setTimeout(() => notification.remove(), 300);
+        }, 3000);
+    }
+};
+
+
+// Initialize the admin panel when the DOM is loaded
+document.addEventListener('DOMContentLoaded', () => adminPanel.init());
