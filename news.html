@@ -1,22 +1,103 @@
-<!-- news.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>News & Events</title>
-    <link rel="stylesheet" href="style/news.css"> <!-- Optional: Include your CSS file -->
+    <title>News & Events - Your Company Name</title>
+    <link rel="stylesheet" href="style/news.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
+    <div class="news-events-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Latest News & Events</h2>
+                <p>Stay updated with our latest announcements, events, and industry insights.</p>
+                
+                <div class="section-filters">
+                    <button class="filter-btn active" data-category="all">
+                        <i class="fas fa-globe"></i>
+                        All
+                    </button>
+                    <button class="filter-btn" data-category="news">
+                        <i class="fas fa-newspaper"></i>
+                        News
+                    </button>
+                    <button class="filter-btn" data-category="events">
+                        <i class="fas fa-calendar-alt"></i>
+                        Events
+                    </button>
+                    <button class="filter-btn" data-category="updates">
+                        <i class="fas fa-bell"></i>
+                        Updates
+                    </button>
+                </div>
+            </div>
 
-    <header>
-        <h1>Latest News & Events</h1>
-    </header>
+            <!-- Error State -->
+            <div id="error-state" class="error-state" style="display: none;">
+                <i class="fas fa-exclamation-circle"></i>
+                <h3>Oops! Something went wrong</h3>
+                <p>Unable to load news content. Please try again later.</p>
+                <button class="retry-btn">Try Again</button>
+            </div>
 
-    <section id="news-container">
-        <!-- News articles will be loaded here by JS -->
-    </section>
+            <!-- Loading State -->
+            <div id="loading-state" class="loading-spinner">
+                <div class="spinner"></div>
+                <p>Loading latest updates...</p>
+            </div>
 
-    <script src="js/news.js"></script> <!-- Include the JS file to fetch and display news -->
+            <!-- News Grid -->
+            <div id="news-container" class="news-grid">
+                <!-- News cards will be dynamically inserted here -->
+            </div>
+
+            <!-- Empty State -->
+            <div id="empty-state" class="empty-state" style="display: none;">
+                <i class="fas fa-inbox"></i>
+                <h3>No Content Found</h3>
+                <p>There are no items matching your current selection.</p>
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination-container">
+                <button class="pagination-btn" id="load-more">
+                    Load More
+                    <i class="fas fa-spinner fa-spin" style="display: none;"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- News Card Template -->
+    <template id="news-card-template">
+        <article class="news-card">
+            <div class="news-card-image">
+                <img src="" alt="" loading="lazy">
+                <div class="news-card-category"></div>
+            </div>
+            <div class="news-card-content">
+                <div class="news-card-meta">
+                    <span class="news-card-date">
+                        <i class="far fa-calendar"></i>
+                        <time></time>
+                    </span>
+                    <span class="news-card-author">
+                        <i class="far fa-user"></i>
+                        <span></span>
+                    </span>
+                </div>
+                <h3 class="news-card-title"></h3>
+                <p class="news-card-description"></p>
+                <a href="#" class="news-card-link">
+                    Read More
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </article>
+    </template>
+
+    <script src="js/news.js"></script>
 </body>
 </html>
