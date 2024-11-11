@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     async function loadNews() {
         try {
-            // Fetch news from GitHub API (replace 'username' and 'repository' with your details)
+            // Fetch news from GitHub API (replace with your repository details)
             const response = await fetch('https://api.github.com/repos/Hussein380/VisaAgency/contents/content/news');
             const data = await response.json();
 
