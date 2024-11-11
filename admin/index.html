@@ -11,18 +11,15 @@
     <script>
         if (window.netlifyIdentity) {
             window.netlifyIdentity.on("init", user => {
+                console.log("Auth initialized", user); // Debug log
                 if (!user) {
                     window.netlifyIdentity.on("login", () => {
+                        console.log("Login successful"); // Debug log
                         document.location.href = "/admin/";
                     });
                 }
             });
         }
-
-        // Add this initialization code
-        window.netlifyIdentity.init({
-            APIUrl: 'https://tawheedvisaagency.netlify.app/.netlify/identity'
-        });
     </script>
 </body>
 </html>
