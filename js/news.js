@@ -1,16 +1,22 @@
-// news.js
 document.addEventListener('DOMContentLoaded', function() {
     const newsContainer = document.getElementById('news-container');
     
     async function loadNews() {
         try {
-            const response = await fetch('/news.json'); // Path to your generated news JSON file
+            // Fetch news from GitHub API (replace 'username' and 'repository' with your details)
+            const response = await fetch('https://api.github.com/repos/Hussein380/VisaAgency/contents/content/news');
             const data = await response.json();
-            
+
             if (data && data.length > 0) {
                 data.forEach(newsItem => {
-                    const newsElement = createNewsCard(newsItem);
-                    newsContainer.appendChild(newsElement);
+                    // Fetch file content (GitHub API returns file metadata, not the actual content)
+                    fetch(newsItem.download_url)
+                        .then(response => response.text())
+                        .then(fileContent => {
+                            const parsedContent = parseMarkdown(fileContent); // Parse markdown to get the article content
+                            const newsElement = createNewsCard(parsedContent);
+                            newsContainer.appendChild(newsElement);
+                        });
                 });
             } else {
                 newsContainer.innerHTML = '<p>No news available.</p>';
@@ -19,6 +25,16 @@ document.addEventListener('DOMContentLoaded', function() {
             console.error("Error fetching news:", error);
             newsContainer.innerHTML = '<p>There was an error loading the news.</p>';
         }
+    }
+
+    // Parse markdown to extract relevant info (simplified example)
+    function parseMarkdown(content) {
+        const lines = content.split('\n');
+        const title = lines[0].replace('# ', ''); // Assuming the first line is the title
+        const date = lines[1].replace('Date: ', ''); // Assuming the second line contains the date
+        const shortDescription = lines[2]; // Assuming the third line is the short description
+        const readMoreLink = lines[3]; // Assuming the fourth line is the 'read more' link
+        return { title, date, shortDescription, readMoreLink };
     }
 
     // Create the HTML structure for each news item
