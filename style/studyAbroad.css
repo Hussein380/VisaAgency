@@ -74,7 +74,8 @@ body {
 
 /* Hero Section */
 .hero {
-    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('assets/studyabroad.png');
+    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), #eaeaea; /* Fallback color */
+    background-image: url('assets/studyabroad.png');
     background-size: cover;
     background-repeat: no-repeat;
     
@@ -518,3 +519,5 @@ body {
         margin-right: 4px;
     }
 }
+
+

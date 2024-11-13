@@ -186,3 +186,4 @@ window.addEventListener('load', function() {
         element.style.transform = 'translateY(0)';
     });
 });
+
