@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Student Visa Guide - EduLink Kenya</title>
+    <link rel="stylesheet" href="style/visa.css">
+  </head>
+  <body>
+    <section class="visa-hero">
+      <h1>Student Visa Guide</h1>
+      <p>Everything you need to know about securing your student visa</p>
+    </section>
+
+    <section class="country-selector">
+      <div class="country-grid">
+        <div class="country-card" data-country="usa">
+          <img src="https://flagcdn.com/w80/us.png" alt="USA Flag" class="country-flag">
+          <h3>United States</h3>
+          <p>F-1 Student Visa</p>
+        </div>
+        <div class="country-card" data-country="uk">
+          <img src="https://flagcdn.com/w80/gb.png" alt="UK Flag" class="country-flag">
+          <h3>United Kingdom</h3>
+          <p>Student Visa (Tier 4)</p>
+        </div>
+        <div class="country-card" data-country="canada">
+          <img src="https://flagcdn.com/w80/ca.png" alt="Canada Flag" class="country-flag">
+          <h3>Canada</h3>
+          <p>Study Permit</p>
+        </div>
+        <div class="country-card" data-country="australia">
+          <img src="https://flagcdn.com/w80/au.png" alt="Australia Flag" class="country-flag">
+          <h3>Australia</h3>
+          <p>Student Visa (Subclass 500)</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="visa-requirements">
+      <div class="requirements-tabs">
+        <button class="tab-button active">Document Checklist</button>
+        <button class="tab-button">Financial Requirements</button>
+        <button class="tab-button">Application Process</button>
+        <button class="tab-button">Interview Prep</button>
+      </div>
+
+      <div class="requirement-list" id="requirementsList">
+        <!-- Requirements will be dynamically populated -->
+      </div>
+    </section>
+
+    <section class="visa-timeline">
+      <h2>Visa Application Timeline</h2>
+      <div class="timeline-container">
+        <div class="timeline-item">
+          <div class="timeline-content">
+            <h3>University Acceptance</h3>
+            <p>Receive your acceptance letter from the university</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-content">
+            <h3>Document Preparation</h3>
+            <p>Gather all required documents and translations</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-content">
+            <h3>Visa Application</h3>
+            <p>Submit your visa application and pay fees</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-content">
+            <h3>Visa Interview</h3>
+            <p>Attend your visa interview at the embassy</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-content">
+            <h3>Visa Decision</h3>
+            <p>Receive your visa decision and passport</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="progress-tracker">
+      <p>Document Checklist Progress</p>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+    </div>
+
+    <script type="module" src="js/visa.js"></script>
+  </body>
+</html>

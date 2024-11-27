@@ -480,7 +480,7 @@ document.addEventListener('DOMContentLoaded', () => {
 const CONTACT_INFO = {
     whatsapp: "254717417326",
     
-    email: "abdul.hudh@gmail.com",
+    email: "info@tawheedglobal.com",
 };
 
 

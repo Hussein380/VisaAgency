@@ -1,0 +1,357 @@
+:root {
+    --primary-color: #2c3e50;
+    --secondary-color: #3498db;
+    --accent-color: #e74c3c;
+    --success-color: #2ecc71;
+    --warning-color: #f1c40f;
+    --text-color: #333;
+    --light-gray: #f5f6fa;
+    --border-color: #ddd;
+  }
+  
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--light-gray);
+  }
+  
+  /* Hero Section */
+  .visa-hero {
+    padding: 120px 20px 60px;
+    background: linear-gradient(rgba(44, 62, 80, 0.9), rgba(44, 62, 80, 0.9)),
+                url('https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
+    background-size: cover;
+    background-position: center;
+    color: white;
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  
+  .visa-hero h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    font-weight: 700;
+  }
+  
+  .visa-hero p {
+    font-size: 1.2rem;
+    max-width: 600px;
+    margin: 0 auto;
+    opacity: 0.9;
+  }
+  
+  /* Country Selection */
+  .country-selector {
+    padding: 2rem;
+    margin-bottom: 2rem;
+  }
+  
+  .country-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .country-card {
+    background: white;
+    border-radius: 15px;
+    padding: 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .country-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+  }
+  
+  .country-card.active {
+    border: 3px solid var(--secondary-color);
+  }
+  
+  .country-flag {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin: 0 auto 1rem;
+    object-fit: cover;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  }
+  
+  .country-card h3 {
+    margin-bottom: 0.5rem;
+    color: var(--primary-color);
+  }
+  
+  .country-card p {
+    color: var(--secondary-color);
+    font-weight: 500;
+  }
+  
+  /* Visa Requirements Section */
+  .visa-requirements {
+    max-width: 1200px;
+    margin: 0 auto 2rem;
+    padding: 0 2rem;
+  }
+  
+  .requirements-tabs {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    overflow-x: auto;
+    padding-bottom: 1rem;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .tab-button {
+    padding: 0.8rem 1.5rem;
+    background: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    white-space: nowrap;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .tab-button.active {
+    background: var(--secondary-color);
+    color: white;
+    box-shadow: 0 4px 6px rgba(52, 152, 219, 0.3);
+  }
+  
+  .requirement-list {
+    background: white;
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .requirement-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.5rem;
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+    transition: background-color 0.3s ease;
+  }
+  
+  .requirement-item:hover {
+    background-color: var(--light-gray);
+  }
+  
+  .requirement-item:last-child {
+    border-bottom: none;
+  }
+  
+  .checkbox-container {
+    min-width: 24px;
+    height: 24px;
+    margin-top: 0.2rem;
+  }
+  
+  .checkbox {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    border-radius: 6px;
+    border: 2px solid var(--secondary-color);
+    transition: all 0.3s ease;
+  }
+  
+  .checkbox:checked {
+    background-color: var(--success-color);
+    border-color: var(--success-color);
+  }
+  
+  .requirement-content {
+    flex-grow: 1;
+  }
+  
+  .requirement-title {
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--primary-color);
+  }
+  
+  .requirement-description {
+    color: #666;
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+  
+  /* Timeline Section */
+  .visa-timeline {
+    padding: 4rem 2rem;
+    background: white;
+  }
+  
+  .visa-timeline h2 {
+    text-align: center;
+    margin-bottom: 3rem;
+    color: var(--primary-color);
+    font-size: 2rem;
+  }
+  
+  .timeline-container {
+    max-width: 800px;
+    margin: 0 auto;
+    position: relative;
+    padding: 2rem 0;
+  }
+  
+  .timeline-container::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 3px;
+    height: 100%;
+    background: var(--secondary-color);
+    opacity: 0.3;
+  }
+  
+  .timeline-item {
+    display: flex;
+    justify-content: flex-end;
+    padding-left: 50%;
+    position: relative;
+    margin-bottom: 3rem;
+  }
+  
+  .timeline-item:nth-child(odd) {
+    justify-content: flex-start;
+    padding-right: 50%;
+    padding-left: 0;
+  }
+  
+  .timeline-content {
+    width: 80%;
+    background: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    position: relative;
+    transition: transform 0.3s ease;
+  }
+  
+  .timeline-content:hover {
+    transform: translateY(-5px);
+  }
+  
+  .timeline-content h3 {
+    color: var(--secondary-color);
+    margin-bottom: 0.5rem;
+  }
+  
+  .timeline-content p {
+    color: #666;
+  }
+  
+  .timeline-content::before {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: var(--secondary-color);
+    border-radius: 50%;
+    top: 50%;
+    transform: translateY(-50%);
+    box-shadow: 0 0 0 4px rgba(52, 152, 219, 0.2);
+  }
+  
+  .timeline-item:nth-child(odd) .timeline-content::before {
+    right: -60px;
+  }
+  
+  .timeline-item:nth-child(even) .timeline-content::before {
+    left: -60px;
+  }
+  
+  /* Progress Tracker */
+  .progress-tracker {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    background: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    transition: transform 0.3s ease;
+  }
+  
+  .progress-tracker:hover {
+    transform: translateY(-5px);
+  }
+  
+  .progress-tracker p {
+    margin-bottom: 0.8rem;
+    font-weight: 500;
+    color: var(--primary-color);
+  }
+  
+  .progress-bar {
+    width: 200px;
+    height: 8px;
+    background: var(--light-gray);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  
+  .progress-fill {
+    height: 100%;
+    background: var(--success-color);
+    width: 0%;
+    transition: width 0.5s ease;
+    border-radius: 4px;
+  }
+  
+  @media (max-width: 768px) {
+    .timeline-container::before {
+      left: 0;
+    }
+  
+    .timeline-item,
+    .timeline-item:nth-child(odd) {
+      padding-left: 30px;
+      padding-right: 0;
+      justify-content: flex-start;
+    }
+  
+    .timeline-content {
+      width: 100%;
+    }
+  
+    .timeline-content::before {
+      left: -40px !important;
+    }
+  
+    .visa-hero h1 {
+      font-size: 2rem;
+    }
+  
+    .progress-tracker {
+      bottom: 1rem;
+      right: 1rem;
+      left: 1rem;
+      width: auto;
+    }
+  
+    .progress-bar {
+      width: 100%;
+    }
+  }
