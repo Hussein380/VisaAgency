@@ -1,7 +1,132 @@
 
 
 
+// Service Details Configuration
+const serviceDetails = {
+    'visit-visas': {
+        title: 'Visit Visas',
+        description: `
+            <h3>Tourist and Business Visit Visas</h3>
+            <p>Our comprehensive visit visa services cover a wide range of destinations for both tourism and business purposes.</p>
+            
+            <h4>Requirements:</h4>
+            <ul>
+                <li>Valid passport with at least 6 months validity</li>
+                <li>Completed visa application form</li>
+                <li>Passport-sized photographs</li>
+                <li>Proof of financial stability</li>
+                <li>Travel itinerary</li>
+                <li>Travel insurance (recommended)</li>
+            </ul>
+            
+            <p>Requirements may vary depending on the destination country. Consult with our experts for specific details.</p>
+        `
+    },
+    'student-visas': {
+        title: 'Student Visas',
+        description: `
+            <h3>Study Abroad Visa Services</h3>
+            <p>We help students navigate the complex process of obtaining student visas for international education.</p>
+            
+            <h4>General Requirements:</h4>
+            <ul>
+                <li>Acceptance letter from recognized educational institution</li>
+                <li>Proof of language proficiency (IELTS/TOEFL)</li>
+                <li>Academic transcripts</li>
+                <li>Valid passport</li>
+                <li>Financial proof to cover tuition and living expenses</li>
+                <li>Health insurance</li>
+                <li>Passport-sized photographs</li>
+            </ul>
+            
+            <p>Each country has unique visa requirements. We provide personalized guidance for your specific destination.</p>
+        `
+    },
+    'work-visas': {
+        title: 'Work Visas',
+        description: `
+            <h3>Professional Work Visa Assistance</h3>
+            <p>Tailored support for professionals seeking international work opportunities.</p>
+            
+            <h4>Typical Requirements:</h4>
+            <ul>
+                <li>Job offer from an employer</li>
+                <li>Valid passport</li>
+                <li>Professional qualifications/degrees</li>
+                <li>Work experience certificates</li>
+                <li>Passport-sized photographs</li>
+                <li>Health clearance certificate</li>
+                <li>Criminal background check</li>
+                <li>Proof of financial stability</li>
+            </ul>
+            
+            <p>Work visa processes differ by country and job type. Our experts ensure smooth application.</p>
+        `
+    },
+    'pilgrimage-visas': {
+        title: 'Pilgrimage Visas',
+        description: `
+            <h3>Hajj and Umrah Visa Assistance</h3>
+            <p>Specialized services for Muslim pilgrims performing Hajj or Umrah.</p>
+            
+            <h4>Requirements:</h4>
+            <ul>
+                <li>Valid passport</li>
+                <li>Completed visa application</li>
+                <li>Proof of Muslim faith (for some countries)</li>
+                <li>Vaccination certificates</li>
+                <li>Passport-sized photographs</li>
+                <li>Confirmed travel and accommodation arrangements</li>
+                <li>Muhrim documentation (for female pilgrims)</li>
+            </ul>
+            
+            <p>We provide end-to-end support to ensure a smooth pilgrimage experience.</p>
+        `
+    }
+};
 
+// Initialize Service Card Interactions
+document.addEventListener('DOMContentLoaded', () => {
+    const serviceCards = document.querySelectorAll('.service-card');
+    const serviceDetailOverlay = document.querySelector('.service-detail-overlay');
+    const closeBtn = document.querySelector('.close-btn');
+
+    // Add click event listeners to service cards
+    serviceCards.forEach(card => {
+        card.addEventListener('click', function() {
+            // Remove active class from all cards
+            serviceCards.forEach(c => c.classList.remove('active'));
+            
+            // Add active class to clicked card
+            this.classList.add('active');
+
+            // Get service details
+            const serviceType = this.getAttribute('data-service');
+            const details = serviceDetails[serviceType];
+
+            // Update overlay content
+            document.getElementById('service-title').textContent = details.title;
+            document.getElementById('service-description').innerHTML = details.description;
+
+            // Show overlay
+            serviceDetailOverlay.classList.add('show');
+        });
+    });
+
+    // Close overlay
+    closeBtn.addEventListener('click', function() {
+        serviceDetailOverlay.classList.remove('show');
+        serviceCards.forEach(c => c.classList.remove('active'));
+    });
+
+    // Close overlay when clicking outside
+    serviceDetailOverlay.addEventListener('click', function(e) {
+        if (e.target === this) {
+            this.classList.remove('show');
+            serviceCards.forEach(c => c.classList.remove('active'));
+        }
+    });
+});
 // Mobile Menu Toggle
         function toggleMobileMenu() {
             const navLinks = document.getElementById('navLinks');

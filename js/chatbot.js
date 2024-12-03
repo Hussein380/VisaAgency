@@ -147,7 +147,7 @@ Would you like to schedule a consultation?`
         }
 
         // Default response
-        return `I apologize, but I'm not sure about that. Could you please rephrase your question? I'm here to help with:
+        return `I apologize, but I'm not sure about that.contact our suppor or  Could you please rephrase your question? I'm here to help with:
 
 • Visa applications
 • Document requirements

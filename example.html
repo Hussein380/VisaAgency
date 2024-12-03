@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #000000;
+            --text-dark: #2c3e50;
+            --text-light: #7f8c8d;
+            --background-light: #f4f6f7;
+            --hover-color: #2980b9;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+        }
+
+        .services {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            padding: 3rem 1rem;
+            background-color: var(--background-light);
+            position: relative;
+        }
+
+        .service-card {
+            background-color: white;
+            border-radius: 15px;
+            padding: 2.5rem;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            transform-origin: center;
+            cursor: pointer;
+            position: relative;
+            z-index: 1;
+        }
+
+        .service-card:hover {
+            transform: translateY(-15px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .service-card.active {
+            transform: scale(1.1);
+            z-index: 10;
+        }
+
+        .service-card i {
+            font-size: 3.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .service-card:hover i,
+        .service-card.active i {
+            color: var(--secondary-color);
+        }
+
+        .service-card h3 {
+            color: var(--text-dark);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .service-card p {
+            color: var(--text-light);
+            line-height: 1.6;
+            font-size: 0.9rem;
+        }
+
+        .service-detail-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .service-detail-content {
+            background: white;
+            border-radius: 15px;
+            padding: 2.5rem;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+            text-align: left;
+        }
+
+        .service-detail-content .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-dark);
+            transition: color 0.3s ease;
+        }
+
+        .service-detail-content .close-btn:hover {
+            color: var(--primary-color);
+        }
+
+        .service-detail-content h2 {
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+        }
+
+        .contact-info {
+            margin-top: 1.5rem;
+            background-color: var(--background-light);
+            padding: 1.5rem;
+            border-radius: 10px;
+        }
+
+        .contact-links {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1rem;
+        }
+
+        .contact-link {
+            display: flex;
+            align-items: center;
+            color: var(--text-dark);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .contact-link:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .contact-link i {
+            margin-right: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        .service-detail-overlay.show {
+            display: flex;
+            opacity: 1;
+        }
+
+        @media (max-width: 768px) {
+            .services {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-links {
+                flex-direction: column;
+            }
+
+            .contact-link {
+                width: 100%;
+                justify-content: center;
+                margin-bottom: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Services Grid -->
+    <div class="services">
+        <div class="service-card" data-service="visit-visas">
+            <i class="fas fa-globe"></i>
+            <h3>Visit Visas</h3>
+            <p>Tourist and business visit visas for multiple countries</p>
+        </div>
+        <div class="service-card" data-service="student-visas">
+            <i class="fas fa-graduation-cap"></i>
+            <h3>Student Visas</h3>
+            <p>Study abroad with our comprehensive student visa services</p>
+        </div>
+        <div class="service-card" data-service="work-visas">
+            <i class="fas fa-briefcase"></i>
+            <h3>Work Visas</h3>
+            <p>Professional work visa assistance for global careers</p>
+        </div>
+        <div class="service-card" data-service="pilgrimage-visas">
+            <i class="fas fa-heart"></i>
+            <h3>Pilgrimage Visas</h3>
+            <p>Specialized assistance for Hajj and Umrah visas</p>
+        </div>
+    </div>
+
+    <!-- Service Detail Overlay -->
+    <div class="service-detail-overlay">
+        <div class="service-detail-content">
+            <span class="close-btn">&times;</span>
+            <h2 id="service-title">Service Details</h2>
+            <div id="service-description"></div>
+            <div class="contact-info">
+                <h3>Contact Us</h3>
+                <div class="contact-links">
+                    <a href="mailto:info@tawheedglobal.com" class="contact-link">
+                        <i class="fas fa-envelope"></i> info@tawheedglobal.com
+                    </a>
+                    <a href="https://wa.me/254717417326" target="_blank" class="contact-link">
+                        <i class="fab fa-whatsapp"></i> +254 717 417 326
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Service Details Configuration (Same as previous script)
+        const serviceDetails = {
+            'visit-visas': {
+                title: 'Visit Visas',
+                description: `
+                    <h3>Tourist and Business Visit Visas</h3>
+                    <p>Our comprehensive visit visa services cover a wide range of destinations for both tourism and business purposes.</p>
+                    
+                    <h4>Requirements:</h4>
+                    <ul>
+                        <li>Valid passport with at least 6 months validity</li>
+                        <li>Completed visa application form</li>
+                        <li>Passport-sized photographs</li>
+                        <li>Proof of financial stability</li>
+                        <li>Travel itinerary</li>
+                        <li>Travel insurance (recommended)</li>
+                    </ul>
+                    
+                    <p>Requirements may vary depending on the destination country. Consult with our experts for specific details.</p>
+                `
+            },
+            'student-visas': {
+                title: 'Student Visas',
+                description: `
+                    <h3>Study Abroad Visa Services</h3>
+                    <p>We help students navigate the complex process of obtaining student visas for international education.</p>
+                    
+                    <h4>General Requirements:</h4>
+                    <ul>
+                        <li>Acceptance letter from recognized educational institution</li>
+                        <li>Proof of language proficiency (IELTS/TOEFL)</li>
+                        <li>Academic transcripts</li>
+                        <li>Valid passport</li>
+                        <li>Financial proof to cover tuition and living expenses</li>
+                        <li>Health insurance</li>
+                        <li>Passport-sized photographs</li>
+                    </ul>
+                    
+                    <p>Each country has unique visa requirements. We provide personalized guidance for your specific destination.</p>
+                `
+            },
+            'work-visas': {
+                title: 'Work Visas',
+                description: `
+                    <h3>Professional Work Visa Assistance</h3>
+                    <p>Tailored support for professionals seeking international work opportunities.</p>
+                    
+                    <h4>Typical Requirements:</h4>
+                    <ul>
+                        <li>Job offer from an employer</li>
+                        <li>Valid passport</li>
+                        <li>Professional qualifications/degrees</li>
+                        <li>Work experience certificates</li>
+                        <li>Passport-sized photographs</li>
+                        <li>Health clearance certificate</li>
+                        <li>Criminal background check</li>
+                        <li>Proof of financial stability</li>
+                    </ul>
+                    
+                    <p>Work visa processes differ by country and job type. Our experts ensure smooth application.</p>
+                `
+            },
+            'pilgrimage-visas': {
+                title: 'Pilgrimage Visas',
+                description: `
+                    <h3>Hajj and Umrah Visa Assistance</h3>
+                    <p>Specialized services for Muslim pilgrims performing Hajj or Umrah.</p>
+                    
+                    <h4>Requirements:</h4>
+                    <ul>
+                        <li>Valid passport</li>
+                        <li>Completed visa application</li>
+                        <li>Proof of Muslim faith (for some countries)</li>
+                        <li>Vaccination certificates</li>
+                        <li>Passport-sized photographs</li>
+                        <li>Confirmed travel and accommodation arrangements</li>
+                        <li>Muhrim documentation (for female pilgrims)</li>
+                    </ul>
+                    
+                    <p>We provide end-to-end support to ensure a smooth pilgrimage experience.</p>
+                `
+            }
+        };
+
+        // Add click event listeners to service cards
+        document.querySelectorAll('.service-card').forEach(card => {
+            card.addEventListener('click', function() {
+                // Remove active class from all cards
+                document.querySelectorAll('.service-card').forEach(c => c.classList.remove('active'));
+                
+                // Add active class to clicked card
+                this.classList.add('active');
+
+                // Get service details
+                const serviceType = this.getAttribute('data-service');
+                const details = serviceDetails[serviceType];
+
+                // Update overlay content
+                document.getElementById('service-title').textContent = details.title;
+                document.getElementById('service-description').innerHTML = details.description;
+
+                // Show overlay
+                document.querySelector('.service-detail-overlay').classList.add('show');
+            });
+        });
+
+        // Close overlay
+        document.querySelector('.close-btn').addEventListener('click', function() {
+            document.querySelector('.service-detail-overlay').classList.remove('show');
+            document.querySelectorAll('.service-card').forEach(c => c.classList.remove('active'));
+        });
+
+        // Close overlay when clicking outside
+        document.querySelector('.service-detail-overlay').addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.remove('show');
+                document.querySelectorAll('.service-card').forEach(c => c.classList.remove('active'));
+            }
+        });
+    </script>
+</body>
+</html>
