@@ -5,6 +5,24 @@
     font-family: 'Arial', sans-serif;
 }
 
+header {
+    background: #f8f9fa;
+    padding: 10px;
+    text-align: right;
+}
+
+.social-links a {
+    text-decoration: none;
+    color: #007bff;
+    margin: 0 10px;
+    font-weight: bold;
+}
+
+.social-links a:hover {
+    text-decoration: underline;
+}
+
+
 :root {
     --primary-blue: #2563eb;
     --success-green: #34d399;
