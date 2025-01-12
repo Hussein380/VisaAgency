@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About TawheedGlobal VisaAgency</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+      line-height: 1.6;
+      background-color: #f9f9f9;
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes countUp {
+      from {
+        counter-reset: number 0;
+      }
+      to {
+        counter-reset: number var(--target);
+      }
+    }
+
+    .hero {
+      position: relative;
+      background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.5)), url('/assets/visa3.jpg');
+      height: 60vh;
+      color: white;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      animation: fadeIn 1.5s ease-in-out;
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      background: linear-gradient(to right, white, #6366f1);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      margin: 1rem 0;
+    }
+
+    .hero button {
+      padding: 0.75rem 1.5rem;
+      background-color: #6366f1;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: transform 0.3s, background-color 0.3s;
+    }
+
+    .hero button:hover {
+      background-color: #4f46e5;
+      transform: scale(1.05);
+    }
+
+    .section {
+      padding: 3rem 1.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 2rem;
+      animation: fadeInUp 1s forwards;
+    }
+
+    .section:nth-child(even) {
+      background-color: #f1f5f9;
+    }
+
+    .section img {
+      flex: 1 1 40%;
+      max-width: 600px;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .section-content {
+      flex: 1 1 50%;
+      max-width: 600px;
+    }
+
+    .section h2 {
+      font-size: 2.2rem;
+      color: #1e3a8a;
+    }
+
+    .section p {
+      font-size: 1rem;
+      color: #555;
+    }
+    /* Stats Section */
+    /* Stats Section */
+.stats {
+  display: flex;
+  justify-content: space-around;
+  padding: 3rem 1rem;
+  text-align: center;
+  animation: fadeInUp 1s forwards;
+  gap: 2rem;
+}
+
+.stat {
+  background-color: #ffffff;
+  border-radius: 10px;
+  padding: 2rem;
+  width: 200px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+}
+
+.stat h3 {
+  font-size: 2.5rem;
+  color: #1e3a8a;
+  margin: 0;
+}
+
+.stat p {
+  font-size: 1rem;
+  color: #555;
+  margin-top: 0.5rem;
+}
+
+/* Hover effect */
+.stat:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  background-color: #6366f1;
+  color: white;
+}
+
+.stat:hover h3 {
+  color: white;
+}
+
+/* Responsive Layout */
+@media (min-width: 768px) {
+  .stats {
+    gap: 4rem;
+  }
+}
+
+
+
+   
+
+  </style>
+</head>
+<body>
+
+<!-- Hero Section -->
+<div class="hero">
+  <h1>Welcome to TawheedGlobal VisaAgency</h1>
+  <p>Your Trusted Partner in Visa Processing</p>
+  <button>Learn More</button>
+</div>
+
+<!-- Who We Are Section -->
+<div class="section">
+  <img src="assets/make visa.jpg" alt="Who We Are">
+  <div class="section-content">
+    <h2>Who We Are</h2>
+    <p>
+      With over a decade of experience in visa processing, we've helped thousands of clients successfully obtain visas for various destinations. Our expert team understands the complexities of visa applications and works tirelessly to make your visa journey smooth and successful.
+    </p>
+  </div>
+</div>
+
+<!-- Our Commitment Section -->
+<div class="section">
+  <div class="section-content">
+    <h2>Our Commitment</h2>
+    <p>
+      We believe in transparent, honest, and professional service. Every application is handled with utmost care and attention to detail, ensuring the highest success rate for our clients.
+    </p>
+  </div>
+  <img src="assets/visa1.jpg" alt="Our Commitment">
+</div>
+
+<!-- Stats Section -->
+<div class="stats">
+    <div class="stat">
+      <h3 class="counter" data-target="98">98</h3>
+      <p>Success Rate</p>
+    </div>
+    <div class="stat">
+      <h3 class="counter" data-target="10000">5k</h3>
+      <p>Happy Clients</p>
+    </div>
+    <div class="stat">
+      <h3 class="counter" data-target="50">20</h3>
+      <p>Countries Covered</p>
+    </div>
+  </div>
+  
+  
+<!-- How We Make Visa Processing Easy Section -->
+<div class="section">
+  <img src="assets/visa5.jpg" alt="Visa Processing">
+  <div class="section-content">
+    <h2>How We Make Visa Processing Easy</h2>
+    <ul>
+      <li><strong>Document Preparation:</strong> We guide you through required documentation and ensure everything meets embassy standards.</li>
+      <li><strong>Application Management:</strong> We handle the entire application process, from filling forms to scheduling interviews.</li>
+      <li><strong>24/7 Support:</strong> Our team is always available to answer your questions and provide updates.</li>
+      <li><strong>Legal Compliance:</strong> We ensure all applications comply with current immigration laws and regulations.</li>
+    </ul>
+  </div>
+</div>
+
+</body>
+</html>
