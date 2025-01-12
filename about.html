@@ -169,6 +169,78 @@
   }
 }
 
+/* Add these lines to your CSS */
+
+/* Ensure the viewport scales correctly on mobile devices */
+html {
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+/* Make images responsive */
+img {
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+}
+
+/* Adjust hero section text for small screens */
+@media (max-width: 768px) {
+  .hero {
+    height: auto;
+    padding: 2rem 1rem;
+  }
+  .hero h1 {
+    font-size: 2rem;
+  }
+  .hero p {
+    font-size: 1rem;
+  }
+}
+
+/* Adjust sections for mobile */
+@media (max-width: 768px) {
+  .section {
+    flex-direction: column;
+    padding: 2rem 1rem;
+    text-align: center;
+  }
+  .section img {
+    margin: 0 auto 1.5rem;
+  }
+  .section-content {
+    text-align: center;
+    max-width: 100%;
+  }
+}
+
+/* Adjust stats layout for mobile */
+@media (max-width: 768px) {
+  .stats {
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 2rem 1rem;
+  }
+  .stat {
+    width: 100%;
+  }
+}
+
+/* Adjust list layout for better readability on mobile */
+@media (max-width: 768px) {
+  .section-content ul {
+    padding-left: 1rem;
+    text-align: left;
+  }
+  .section-content ul li {
+    margin-bottom: 0.5rem;
+  }
+}
+
+
 
 
    
