@@ -5,7 +5,8 @@ const projects = [
       title: "Scholars Connect",
       description: "Connecting scholars worldwide using our platoform, fostering academic collaboration and knowledge sharing across borders.",
       image: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&q=80&w=1200",
-      url: "https://connectv1.vercel.app/"
+    
+      url: "./mentors-connect/index.html" 
     },
 
   ];

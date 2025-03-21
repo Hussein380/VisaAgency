@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initial welcome message
     setTimeout(() => {
-        addMessage('bot', 'Hello! 👋 I\'m your Visa Assistant. How can I help you today?');
+        addMessage('bot', 'Hello! 👋 I\'m Huzni ai, your Visa Assistant. How can I help you today?');
     }, 500);
 
     // Event Listeners
